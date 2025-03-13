@@ -1,0 +1,3 @@
+"""
+EthicGuard Streamlit application package.
+"""
