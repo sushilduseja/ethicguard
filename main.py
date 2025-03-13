@@ -16,60 +16,56 @@ from src.core.agents.data_agent import DataAgent
 from src.core.agents.model_agent import ModelAgent
 from src.core.agents.documentation_agent import DocumentationAgent
 
-st.set_page_config(page_title="EthicGuard", layout="wide")
-st.title("🛡️ EthicGuard - AI Ethics Assessment")
+st.set_page_config(page_title="EthicGuard", layout="wide", initial_sidebar_state="expanded")
 
-with st.expander("ℹ️ How to use"):
-    st.write("""
-    ### Welcome to EthicGuard!
+# Move How to Use to sidebar for cleaner main interface
+with st.sidebar:
+    st.title("📚 Guide")
+    st.markdown("""
+    ### How to Use EthicGuard
     
-    This tool helps you check if your AI model is treating different groups fairly.
+    1. **Enter Sample Data**
+       - Include both reference (0) and protected (1) groups
+       - Add actual outcomes and model predictions
     
-    #### Input Guide:
-    1. **Protected Group**: Choose which group each data point belongs to
-       - 0 = Reference Group (e.g., Male)
-       - 1 = Protected Group (e.g., Female)
+    2. **Add Documentation**
+       - Describe model purpose
+       - Explain data sources
+       - List known limitations
     
-    2. **Actual Outcome**: The true result that occurred
-       - 0 = Negative (e.g., Loan Denied)
-       - 1 = Positive (e.g., Loan Approved)
+    3. **Review Results**
+       - Check bias score
+       - Evaluate fairness metrics
+       - Verify documentation completeness
     
-    3. **Model Prediction**: What your model predicted
-       - 0 = Negative Prediction
-       - 1 = Positive Prediction
+    ### Example: Loan Approval Model
+    | Group | Description |
+    |-------|-------------|
+    | 0 | Male applicants |
+    | 1 | Female applicants |
     
-    #### Example Use Case:
-    If you're analyzing a loan approval system:
-    - Protected Group: Gender (0=Male, 1=Female)
-    - Actual: Loan Status (0=Denied, 1=Approved)
-    - Prediction: Model's Decision (0=Deny, 1=Approve)
+    | Outcome | Meaning |
+    |---------|---------|
+    | 0 | Loan Denied |
+    | 1 | Loan Approved |
     """)
 
+# Main content
+st.title("🛡️ EthicGuard")
+st.subheader("AI Ethics Assessment Platform")
+
 with st.form("assessment_form"):
-    col1, col2 = st.columns(2)
+    tab1, tab2 = st.tabs(["📊 Data Input", "📝 Documentation"])
     
-    with col1:
+    with tab1:
         st.subheader("Sample Data Input")
-        rows = st.number_input("Number of data points to analyze", 2, 10, 3)
-        
-        # Add group balance tracking
-        st.info("💡 For meaningful analysis, include data from both groups:")
+        rows = st.number_input("Number of samples", 2, 10, 3)
         
         data = []
         group_0_count = 0
         group_1_count = 0
         
-        # Create two columns for group selection
-        group_col1, group_col2 = st.columns(2)
-        
-        with group_col1:
-            st.markdown("**Reference Group (0)**")
-            st.write(f"Current count: {group_0_count}")
-            
-        with group_col2:
-            st.markdown("**Protected Group (1)**")
-            st.write(f"Current count: {group_1_count}")
-        
+        # Group selection grid
         for i in range(rows):
             c1, c2, c3 = st.columns(3)
             with c1:
@@ -101,30 +97,40 @@ with st.form("assessment_form"):
                 )
             data.append([protected, actual, predicted])
         
-        # Show warning if groups are unbalanced
-        if group_0_count == 0 or group_1_count == 0:
-            st.warning("⚠️ Please include data from both groups for meaningful analysis!")
+        # Show group balance after data entry
+        st.write("---")
+        st.markdown("### Group Balance")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("Reference Group (0)", group_0_count)
+        with col2:
+            st.metric("Protected Group (1)", group_1_count)
+            
+        if group_0_count == 0 and group_1_count == 0:
+            st.info("💡 Start entering data above")
+        elif group_0_count == 0 or group_1_count == 0:
+            st.warning("⚠️ Please include data from both groups!")
         else:
-            st.success(f"✅ Data distribution: {group_0_count} reference vs {group_1_count} protected")
+            st.success(f"✅ Data distribution: {group_0_count} reference, {group_1_count} protected")
     
-    with col2:
-        st.subheader("Model Documentation")
-        st.info("💡 Describe your model, covering these key areas:")
-        st.markdown("""
-        1. **Purpose**: What is your model trying to predict?
-        2. **Data**: What data was used to train it?
-        3. **Limitations**: What are its known limitations?
-        """)
-        doc_text = st.text_area(
-            "Documentation",
-            height=200,
-            placeholder="""Example:
-Purpose: This model predicts loan approval likelihood
-Data: Historical loan applications from 2020-2022
-Limitations: Limited data from rural areas"""
-        )
+    with tab2:
+        st.info("💡 Model Documentation Guidelines")
+        doc_cols = st.columns([1, 2])
+        with doc_cols[0]:
+            st.markdown("""
+            **Required Sections:**
+            1. Purpose
+            2. Data Sources
+            3. Limitations
+            """)
+        with doc_cols[1]:
+            doc_text = st.text_area(
+                "Documentation",
+                height=200,
+                placeholder="Purpose: Loan approval prediction\nData: Historical applications 2020-2022\nLimitations: Limited rural data"
+            )
     
-    submitted = st.form_submit_button("Analyze Ethics")
+    submitted = st.form_submit_button("🔍 Analyze Ethics")
 
 if submitted:
     # Validate input data
@@ -159,34 +165,38 @@ if submitted:
             # Documentation Agent assesses documentation
             doc_result = doc_agent.assess(doc_text)  # Remove extra arguments
             
-            # Display results
-            col1, col2, col3 = st.columns(3)
+            # Display results in a more organized way
+            st.markdown("### 📊 Assessment Results")
+            metric_cols = st.columns(3)
             
-            with col1:
-                st.header("Data Bias Analysis")
+            with metric_cols[0]:
+                st.info("**Bias Analysis**")
                 if bias_result and 'score' in bias_result:
                     st.metric("Bias Score", f"{bias_result['score']:.2f}", bias_result.get('rating', ''))
                     st.write(bias_result['message'])
                 else:
                     st.error("Invalid bias analysis result")
             
-            with col2:
-                st.header("Fairness Analysis")
+            with metric_cols[1]:
+                st.info("**Fairness Evaluation**")
                 if fair_result and 'score' in fair_result:
                     st.metric("Fairness Score", f"{fair_result['score']:.2f}", fair_result.get('rating', ''))
                     st.write(fair_result['message'])
                 else:
                     st.error("Invalid fairness analysis result")
             
-            with col3:
-                st.header("Documentation Analysis")
+            with metric_cols[2]:
+                st.info("**Documentation Review**")
                 if doc_result and 'score' in doc_result:
                     st.metric("Compliance Score", f"{doc_result['score']:.2f}", doc_result.get('rating', ''))
                     st.write(doc_result['message'])
                 else:
                     st.error("Invalid documentation analysis result")
 
-            st.success("✅ Assessment Complete!")
+            if all(result.get('score', 0) > 0.6 for result in [bias_result, fair_result, doc_result]):
+                st.success("✅ Model meets ethical guidelines!")
+            else:
+                st.warning("⚠️ Some aspects need review. Check details above.")
             logging.info("Assessment completed successfully")
             
         except Exception as e:
