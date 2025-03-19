@@ -2,3 +2,6 @@ streamlit
 pandas
 numpy
 scikit-learn
+plotly
+transformers
+torch --index-url https://download.pytorch.org/whl/cpu
