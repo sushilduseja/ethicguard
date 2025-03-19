@@ -1,0 +1,16 @@
+applicant_id,gender,age,ethnicity,education_level,years_experience,interview_score,hire_decision
+1001,F,28,Asian,Masters,3,8.5,0
+1002,M,35,White,Bachelors,4,7.2,1
+1003,F,42,Black,PhD,12,9.0,0
+1004,M,31,White,Masters,5,7.8,1
+1005,F,29,Hispanic,Masters,6,8.2,0
+1006,M,38,White,Bachelors,7,7.5,1
+1007,F,33,Asian,PhD,8,8.8,0
+1008,M,36,White,Masters,6,7.4,1
+1009,F,27,Black,Masters,4,8.3,0
+1010,M,40,White,Bachelors,9,7.1,1
+1011,F,35,Hispanic,PhD,10,8.9,0
+1012,M,34,White,Masters,5,7.6,1
+1013,F,31,Asian,Masters,7,8.4,0
+1014,M,37,White,Bachelors,8,7.3,1
+1015,F,29,Black,PhD,6,8.7,0

@@ -3,7 +3,6 @@ from modules.input_handler import load_data
 from modules.bias_detection import detect_bias, create_bias_chart
 from modules.privacy_security import check_pii
 from modules.report_generator import generate_report
-from modules.ai_agent import EthicsAnalysisAgent
 import pandas as pd
 import os
 
@@ -85,12 +84,11 @@ if data is not None:
                 pii_result = check_pii(data)
                 st.success("✅ Privacy check complete")
             
-            # Get AI insights and generate report
-            analysis = ai_agent.analyze_results(bias_result, pii_result)
+            # Generate report
             report = generate_report(bias_result, pii_result)
             
             # Show results in tabs for better organization
-            tab1, tab2, tab3 = st.tabs(["📊 Visualization", "🤖 AI Analysis", "📝 Report"])
+            tab1, tab2 = st.tabs(["📊 Visualization", "📝 Report"])
             
             with tab1:
                 fig = create_bias_chart(group_means, sensitive_attr, outcome_col)
@@ -98,9 +96,6 @@ if data is not None:
                     st.plotly_chart(fig, use_container_width=True)
             
             with tab2:
-                st.write(analysis)
-            
-            with tab3:
                 st.markdown("### Full Report")
                 st.markdown("```\n" + report + "\n```")
                 st.download_button(

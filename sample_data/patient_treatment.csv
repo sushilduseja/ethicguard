@@ -1,0 +1,16 @@
+patient_id,age,gender,race,insurance_type,condition_severity,treatment_cost,recovery_time,readmission
+3001,65,M,White,Private,3,15000,30,0
+3002,42,F,Black,Public,3,8500,45,1
+3003,58,M,Hispanic,Medicare,3,9000,42,1
+3004,51,F,White,Private,3,14500,32,0
+3005,47,M,Black,Public,3,8800,47,1
+3006,62,F,White,Private,3,15500,31,0
+3007,39,M,Hispanic,Public,3,9200,44,1
+3008,55,F,White,Private,3,14800,33,0
+3009,45,M,Black,Medicare,3,9500,46,1
+3010,59,F,White,Private,3,15200,30,0
+3011,41,M,Hispanic,Public,3,8900,43,1
+3012,53,F,White,Private,3,14600,32,0
+3013,49,M,Black,Public,3,9100,45,1
+3014,57,F,White,Private,3,15300,31,0
+3015,43,M,Hispanic,Medicare,3,9300,44,1

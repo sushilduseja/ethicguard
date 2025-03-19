@@ -1,0 +1,16 @@
+student_id,gender,race,parent_education,school_type,socioeconomic_status,attendance_rate,math_score,reading_score
+4001,F,Asian,Graduate,Private,High,95,92,94
+4002,M,White,Graduate,Private,High,94,90,92
+4003,F,Hispanic,HighSchool,Public,Low,85,72,75
+4004,M,Black,HighSchool,Public,Low,83,70,73
+4005,F,White,Graduate,Private,High,96,91,93
+4006,M,Hispanic,HighSchool,Public,Low,84,71,74
+4007,F,Asian,Graduate,Private,High,95,93,95
+4008,M,Black,HighSchool,Public,Low,82,69,72
+4009,F,White,Graduate,Private,High,94,89,91
+4010,M,Hispanic,HighSchool,Public,Low,86,73,76
+4011,F,Asian,Graduate,Private,High,97,94,96
+4012,M,Black,HighSchool,Public,Low,81,68,71
+4013,F,White,Graduate,Private,High,95,90,92
+4014,M,Hispanic,HighSchool,Public,Low,85,72,75
+4015,F,Black,HighSchool,Public,Low,83,70,73
