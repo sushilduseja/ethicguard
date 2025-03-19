@@ -5,3 +5,7 @@ scikit-learn
 plotly
 transformers
 torch --index-url https://download.pytorch.org/whl/cpu
+pytest>=7.0.0
+pytest-cov>=4.1.0
+pytest-mock>=3.10.0
+coverage>=7.3.2

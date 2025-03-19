@@ -6,17 +6,10 @@ from modules.report_generator import generate_report
 import pandas as pd
 import os
 
-@st.cache_resource
-def get_ai_agent():
-    return EthicsAnalysisAgent()
-
 # UI Configuration
 st.set_page_config(page_title="EthicGuard", layout="wide")
 st.title("EthicGuard - AI Ethics Assessment")
 st.markdown("Assess your AI systems for ethical concerns with ease.")
-
-# Initialize AI agent
-ai_agent = get_ai_agent()
 
 # Data Upload
 st.subheader("Step 1: Upload Your Data")
